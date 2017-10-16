@@ -37,7 +37,6 @@
 bool IOManager::initialized = false;
 IOManager::Pin IOManager::pins[IOManager::NodesSize * IOManager::PinsSize] = {};
 
-//call this first
 void IOManager::Init()
 {
     if(!initialized)
