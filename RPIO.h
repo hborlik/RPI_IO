@@ -34,11 +34,7 @@
 #ifndef RPIO_H
 #define RPIO_H
 
-//Error reporting
-
-#include <errno.h>
 #include <string>
-//#include <string.h>
 
 class RPIO_Logging
 {

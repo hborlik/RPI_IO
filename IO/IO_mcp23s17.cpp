@@ -28,7 +28,6 @@
 #include <stdint.h>
 
 #include "IO_mcp23s17.h"
-#include "IO_spi.h"
 #include "../RPIO.h"
 
 static int file = 0;
@@ -73,7 +72,37 @@ int io_mcp23s17::setupmcp23s17(int devID)
     return 0;
 }
 
-int io_mcp23s17::setPinMode(int devID, int pin, bool level)
+int io_mcp23s17::setPinMode(int devID, int pin, OUTPUTMODE mode)
+{
+    uint8_t reg, hold;
+    
+    if(pin < 8)
+    {
+        reg = MCP23S17_IODIRA;
+    }else if(pin < 16)
+    {
+        reg = MCP23S17_IODIRB;
+    }else
+    {
+        return -1;
+    }
+    
+    uint8_t mask = MCP23S17_GPIO(pin);
+    
+    hold = readByte(devID, reg);
+    
+    if(mode == OUTPUTMODE::INPUT)
+    {
+        hold |= mask;
+    }else if(mode == OUTPUTMODE::OUTPUT)
+    {
+        hold &= ~(mask);
+    }
+    
+    return writeByte(devID, reg, hold);
+}
+
+int io_mcp23s17::setPinLogic(int devID, int pin, bool level)
 {
     uint8_t reg, hold;
     
@@ -97,7 +126,7 @@ int io_mcp23s17::setPinMode(int devID, int pin, bool level)
         hold |= mask;
     }else
     {
-        hold &= (~mask);
+        hold &= ~(mask);
     }
     return writeByte(devID, reg, hold);
 }

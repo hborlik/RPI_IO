@@ -34,6 +34,8 @@
 #ifndef IO_MCP23S17_H
 #define IO_MCP23S17_H
 
+#include "IO_spi.h"
+
 //Register addresses 
 
 #define MCP23S17_IODIRA             0x00
@@ -128,12 +130,19 @@ register modifies the Output Latch (OLAT) register.
 
 #define MCP23S17_MAX_SPEED              4000000
 
-namespace io_mcp23s17
+class io_mcp23s17
 {
-    int setupmcp23s17(int devID);
-    int setPinMode(int devID, int pin, bool level);
-    int setPinPullup(int devID, int pin, bool level);
-}
+public:
+    enum class OUTPUTMODE {
+        OUTPUT,
+        INPUT
+    };
+    
+    static int setupmcp23s17(int devID);
+    static int setPinMode(int devID, int pin, OUTPUTMODE mode);
+    static int setPinLogic(int devID, int pin, bool level);
+    static int setPinPullup(int devID, int pin, bool level);
+};
 
 #endif /* IO_MCP23S17_H */
 

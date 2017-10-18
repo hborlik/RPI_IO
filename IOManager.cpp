@@ -26,10 +26,11 @@
 
 #include "IOManager.h"
 
+#include "RPIO.h"
+
 #include <string.h>
 #include <string>
 
-#include "RPIO.h"
 #include "IO/IO_spi.h"
 #include "IO/IO_mcp23s17.h"
 
@@ -67,7 +68,7 @@ void IOManager::Init()
                 pp.logicLevel = false;
                 pp.doPullup = false;
                 pp.needsUpdate = false;
-                pp.mode = PINMODE::UNUSED;
+                pp.mode = io_mcp23s17::OUTPUTMODE::OUTPUT;
             }
         }
     }
@@ -79,10 +80,10 @@ void IOManager::Update()
     for(int i = 0; i < NodesSize * PinsSize; ++i)
     {
         Pin *pp = &pins[i];
-        if(pp->mode != PINMODE::UNUSED && pp->needsUpdate)
+        if(pp->needsUpdate)
         {
-            
-            io_mcp23s17::setPinMode(pp->devID, (i & 0x0F), pp->logicLevel);
+            io_mcp23s17::setPinMode(pp->devID, (i & 0x0F), pp->mode);
+            io_mcp23s17::setPinLogic(pp->devID, (i & 0x0F), pp->logicLevel);
             pp->needsUpdate = false;
         }
     }
@@ -100,22 +101,25 @@ void IOManager::Shutdown()
 
 void IOManager::setPinFunc(int pin, PINCHG_FUNC func)
 {
-    
+    pins[pin].func = func;
 }
 
-void IOManager::setPinMode(int pin, PINMODE mode)
+void IOManager::setPinMode(int pin, io_mcp23s17::OUTPUTMODE mode)
 {
-    
+    pins[pin].mode = mode;
+    pins[pin].needsUpdate = true;
 }
 
 void IOManager::setPinPullup(int pin, bool do_pullup)
 {
-    
+    pins[pin].doPullup = do_pullup;
+    pins[pin].needsUpdate = true;
 }
 
 void IOManager::setPinLogicL(int pin, bool level)
 {
-    
+    pins[pin].logicLevel = level;
+    pins[pin].needsUpdate = true;
 }
 
 //TODO: Change to const Pin &p
@@ -123,13 +127,12 @@ bool IOManager::pinCondition(const Pin* p)
 {
     //pullup will only activate if the GPPU register bit is
     //set and port configured as an input
-    if(!(p->mode == PINMODE::UNUSED)){
-        if(p->mode == PINMODE::INPUT && p->logicLevel == true){
+
+    if(p->mode == io_mcp23s17::OUTPUTMODE::INPUT && p->logicLevel == true){
+        return false;
+    }else if(p->mode == io_mcp23s17::OUTPUTMODE::OUTPUT && p->logicLevel == true){
+        if(p->doPullup == true){
             return false;
-        }else if(p->mode == PINMODE::OUTPUT && p->logicLevel == true){
-            if(p->doPullup == true){
-                return false;
-            }
         }
     }
 }

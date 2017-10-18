@@ -34,7 +34,8 @@
 #ifndef IOMANAGER_H
 #define IOMANAGER_H
 
-    
+#include "IO/IO_mcp23s17.h"
+
 class IOManager
 {
 public:
@@ -44,10 +45,6 @@ public:
     
     typedef int (*PINCHG_FUNC)(bool state);
     
-    enum class PINMODE{
-        INPUT, OUTPUT, UNUSED
-    };
-    
     static void Init();
     static void Update();
     static void Shutdown();
@@ -56,7 +53,7 @@ public:
     }
     
     static void setPinFunc(int pin, PINCHG_FUNC func);
-    static void setPinMode(int pin, PINMODE mode);
+    static void setPinMode(int pin, io_mcp23s17::OUTPUTMODE mode);
     static void setPinPullup(int pin, bool do_pullup);
     static void setPinLogicL(int pin, bool level);
        
@@ -65,7 +62,7 @@ private:
     typedef struct Pin{
         unsigned short devID;
         unsigned short channel;
-        PINMODE mode;
+        io_mcp23s17::OUTPUTMODE mode;
         PINCHG_FUNC func;
         bool needsUpdate;
         bool doPullup;
@@ -83,9 +80,6 @@ private:
     //all pins
     static Pin pins[NodesSize * PinsSize];
     
-    //maps pins to pin numbers
-    //default is same as pins
-    static Pin* PinMap[NodesSize * PinsSize];
 };
 
 #endif /* IOMANAGER_H */
