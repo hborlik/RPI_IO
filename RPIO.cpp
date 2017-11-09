@@ -45,11 +45,11 @@ void RPIO_Logging::RPIOERROR(FATALITY level, std::string mesg)
 {
     if(level == FATALITY::ERR_FATAL)
     {
-        std::cout << "RPIO fatal error: ";
+        std::cout << "[RPIO_FATAL_ERROR]: ";
         //SHUTDOWN PROGRAM
     }else
     {
-        std::cout << "RPIO error: ";
+        std::cout << "[RPIO_ERROR]: ";
     }
     
     std::cout << mesg << std::endl;
