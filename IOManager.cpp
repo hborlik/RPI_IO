@@ -75,11 +75,12 @@ void IOManager::Init()
 }
 
 //check if node is active, then update pins if pin update flag is set
+//allows for less updates to gpio
 void IOManager::Update()
 {
     for(int i = 0; i < NodesSize * PinsSize; ++i)
     {
-        Pin *pp = &pins[i];
+        Pin *pp = &(pins[i]);
         if(pp->needsUpdate)
         {
             io_mcp23s17::setPinMode(pp->devID, (i & 0x0F), pp->mode);
@@ -88,7 +89,6 @@ void IOManager::Update()
         }
     }
 }
-
 
 void IOManager::Shutdown()
 {
@@ -135,4 +135,5 @@ bool IOManager::pinCondition(const Pin* p)
             return false;
         }
     }
+    return true;
 }
