@@ -59,14 +59,14 @@ int io_spi::spiSetup(unsigned int channel, unsigned int speed, unsigned int mode
     file = open(channel == 0 ? spiDevice0 : spiDevice1, O_RDWR);
     if(file < 0)
     {
-        RPIO_Logging::RPIOERROR(RPIO_Logging::FATALITY::ERR_NON_FATAL, 
+        RPIO_Logging::RPIOERROR(RPIO_Logging::FATALITY::ERR_FATAL, 
                 "Could not open SPI device. " + std::string(strerror(errno)));
     }
     
     out = ioctl(file, SPI_IOC_WR_MODE, &mode);
     if(out != 0)
     {
-        RPIO_Logging::RPIOERROR(RPIO_Logging::FATALITY::ERR_NON_FATAL, 
+        RPIO_Logging::RPIOERROR(RPIO_Logging::FATALITY::ERR_FATAL, 
                 "Could not set SPI logic mode. " + std::string(strerror(errno)));
         return -1;
     }
@@ -74,7 +74,7 @@ int io_spi::spiSetup(unsigned int channel, unsigned int speed, unsigned int mode
     out = ioctl(file, SPI_IOC_WR_BITS_PER_WORD, &spiBitsPerWord);
     if(out != 0)
     {
-        RPIO_Logging::RPIOERROR(RPIO_Logging::FATALITY::ERR_NON_FATAL, 
+        RPIO_Logging::RPIOERROR(RPIO_Logging::FATALITY::ERR_FATAL, 
                 "Could not set SPI bits per word. " + std::string(strerror(errno)));
         return -1;
     }
@@ -82,7 +82,7 @@ int io_spi::spiSetup(unsigned int channel, unsigned int speed, unsigned int mode
     out = ioctl(file, SPI_IOC_WR_MAX_SPEED_HZ, &speed);
     if(out != 0)
     {
-        RPIO_Logging::RPIOERROR(RPIO_Logging::FATALITY::ERR_NON_FATAL, 
+        RPIO_Logging::RPIOERROR(RPIO_Logging::FATALITY::ERR_FATAL, 
                 "Could not set SPI speed. " + std::string(strerror(errno)));
         return -1;
     }
