@@ -39,9 +39,9 @@
 class IOManager
 {
 public:
-    static const unsigned short NodesSize = 8;
-    static const unsigned short PinsSize = 16;
-    static const unsigned short channel = 0;
+    static constexpr unsigned short NodesSize = 8;
+    static constexpr unsigned short PinsSize = 16;
+    static constexpr unsigned short channel = 0;
     
     typedef int (*PINCHG_FUNC)(bool state);
     
@@ -79,7 +79,6 @@ private:
     
     //all pins
     static Pin pins[NodesSize * PinsSize];
-    
 };
 
 #endif /* IOMANAGER_H */
