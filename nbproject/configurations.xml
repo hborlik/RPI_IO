@@ -23,6 +23,7 @@
         <itemPath>IO/IO_spi.cpp</itemPath>
       </logicalFolder>
       <itemPath>IOManager.cpp</itemPath>
+      <itemPath>PythonInterface.cpp</itemPath>
       <itemPath>RPIO.cpp</itemPath>
       <itemPath>main.cpp</itemPath>
     </logicalFolder>
@@ -63,6 +64,8 @@
       </item>
       <item path="IOManager.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="PythonInterface.cpp" ex="false" tool="1" flavor2="0">
+      </item>
       <item path="RPIO.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="RPIO.h" ex="false" tool="3" flavor2="0">
@@ -102,6 +105,8 @@
       <item path="IOManager.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="IOManager.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="PythonInterface.cpp" ex="false" tool="1" flavor2="0">
       </item>
       <item path="RPIO.cpp" ex="false" tool="1" flavor2="0">
       </item>

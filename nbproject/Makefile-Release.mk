@@ -38,6 +38,7 @@ OBJECTFILES= \
 	${OBJECTDIR}/IO/IO_mcp23s17.o \
 	${OBJECTDIR}/IO/IO_spi.o \
 	${OBJECTDIR}/IOManager.o \
+	${OBJECTDIR}/PythonInterface.o \
 	${OBJECTDIR}/RPIO.o \
 	${OBJECTDIR}/main.o
 
@@ -80,6 +81,11 @@ ${OBJECTDIR}/IOManager.o: IOManager.cpp
 	${MKDIR} -p ${OBJECTDIR}
 	${RM} "$@.d"
 	$(COMPILE.cc) -O2 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/IOManager.o IOManager.cpp
+
+${OBJECTDIR}/PythonInterface.o: PythonInterface.cpp
+	${MKDIR} -p ${OBJECTDIR}
+	${RM} "$@.d"
+	$(COMPILE.cc) -O2 -std=c++11 -MMD -MP -MF "$@.d" -o ${OBJECTDIR}/PythonInterface.o PythonInterface.cpp
 
 ${OBJECTDIR}/RPIO.o: RPIO.cpp
 	${MKDIR} -p ${OBJECTDIR}
