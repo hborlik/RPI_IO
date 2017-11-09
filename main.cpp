@@ -36,5 +36,6 @@ int main(int argc, char** argv)
 
 int mainLoop()
 {
+    while(1)
     IOManager::Update();
 }
